@@ -1,0 +1,148 @@
+  <mat-nav-list *ngIf='_ubi.usuario_logueado'>
+    <mat-list-item  [ngStyle]="{'background-color':pedido.estilos.background,'color':pedido.estilos.color}"
+                    [ngClass]="{'fivePhasesFadeIn': pedido.estilos.blink }"
+                    *ngFor="let pedido of pedidos">
+       <div (click)="infoViaje(pedido)">{{ pedido.calle+' '+pedido.altura }} <br> {{ pedido.estilos.texto }} </div>
+       <mat-icon *ngIf="pedido.estado<5" color='danger' (click)="cancelarViaje(pedido)">close</mat-icon>
+    </mat-list-item>
+  </mat-nav-list>
+
+      <div id="map" class="map"></div>
+      <div id="tooltip"></div>
+
+
+<div *ngIf='_ubi.usuario_logueado' class='comandar' [ngSwitch]="switch_accion">
+ <app-modificacion *ngSwitchCase="'nuevo_viaje'"></app-modificacion>
+
+
+ <app-presupuesto  *ngSwitchCase="'presupuestar'" ></app-presupuesto>
+</div>
+
+<div class='custom-float-button'  *ngIf="_ubi.usuario_logueado" color="warn">
+    <!--
+    <button mat-fab *ngIf='!editar_mass && modoEdicion' (click)="borrar_tramo()">
+        <i class="material-icons"  >delete_forever</i>
+    </button>
+
+   <button mat-fab *ngIf='modoEdicion' (mouseover)="mouse_over('edicion_multiple')" (mouseout)="mouse_over('')" (click)="editar_muchos_tramos()" >
+        <i class="material-icons"  >tab_unselected</i>
+    </button>
+    -->
+
+    <button mat-fab  color="primary" *ngIf='modoEdicion' (mouseover)="mouse_over('presupuestar')" (mouseout)="mouse_over('')" (click)="switch_accion='presupuestar'" >
+        <i class="material-icons" >monetization_on</i>
+    </button>
+    <button mat-fab *ngIf='modoEdicion' (mouseover)="mouse_over('nuevo_viaje')" (mouseout)="mouse_over('')" color="secondary"  (click)="switch_accion='nuevo_viaje'" >
+        <i class="material-icons" >add_circle_outline</i>
+    </button>
+
+    <button mat-fab color="primary"   (click)="modoEdicion = !modoEdicion;" >
+        <i class="material-icons"  >build</i>
+    </button>
+
+
+
+
+
+    <div id="descripcion">{{descripcion}}</div>
+</div>
+
+<!--
+<mat-grid-list cols=4  rowHeight="100px"  >
+
+        <mat-grid-tile >
+            <mat-card >
+
+                    <mat-form-field >
+                      <input matInput #input maxlength=100 placeholder="Ingresar Direccion" >
+                      <mat-hint align="end" *ngIf="input.value?.length==maxlength">Direccion: máximo {{maxlength}} caracteres</mat-hint>
+                    </mat-form-field>
+
+
+
+                <div class="errorMessage" *ngIf="true">Direccion is required</div>
+            </mat-card>
+
+        </mat-grid-tile>
+</mat-grid-list>
+
+
+<ion-header>
+  <ion-navbar>
+
+  <ion-nav-buttons end padding>
+    <button *ngIf="!modalON" ion-button large (click)="confirmar_nuevo_viaje()">Solicitar <br> Viaje</button>
+    <button *ngIf="modalON" ion-button large (click)="dismiss(true)">Usar <br> Posicion</button>
+  </ion-nav-buttons>
+
+
+    <ion-title *ngIf="!modalON" (click)="centrar_mapa()" >
+          {{this._us.configuracion.titulo_a_mostrar}}
+    </ion-title>
+
+    <ion-buttons start padding >
+        <ion-chip *ngIf="!modalON" >
+            <ion-icon name="clock" color="dark"></ion-icon>
+            <ion-label>{{this._us.demora}}</ion-label>
+        </ion-chip>
+    </ion-buttons >
+
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+    <div id="map" #map ></div>
+  <ion-grid *ngIf="!modalON" >
+            <ion-row>
+
+
+                  <ion-col col-4>
+                      <div id="lista" #lista >
+                          <ion-list no-lines>
+                              <ion-item *ngFor="let viaje of _gps.viajes_buscando" [class.fivePhasesFadeIn]="viaje.cambio_estado" (click)="this.ver_informacion_movil(viaje.id_viaje)"  [ngStyle]="this.styleCambioEstadoViaje(viaje)" >
+
+                                  <ion-avatar item-left   (click)="this.cancelar_viaje(viaje.id_viaje)"  *ngIf="!viaje.en_domicilio" >
+                                      <ion-icon name="close-circle" color="danger"></ion-icon>
+                                  </ion-avatar>
+
+                                  <h2> Viaje {{viaje.titulo}} - {{ viaje.estado_descrip  }}</h2>
+
+                                  <p >Pedido {{ this._gps.tiempoAnterior(viaje.fecha) }}</p>
+
+
+                              </ion-item>
+                          </ion-list>
+                      </div>
+                  </ion-col>
+                  <ion-col col-4 >
+                  </ion-col>
+                  <ion-col col-4>
+                      <div id="lista" #lista >
+                          <ion-list no-lines>
+                              <ion-item *ngFor="let viaje of _gps.viajes_asignados"  (click)="this.ver_informacion_movil(viaje.id_viaje)"  [class.fivePhasesFadeIn]="viaje.cambio_estado" [ngStyle]="this.styleCambioEstadoViaje(viaje)" >
+                                  <ion-avatar item-right   (click)="this.cancelar_viaje(viaje.id_viaje)" *ngIf="!viaje.en_domicilio" >
+                                      <ion-icon name="close-circle" color="danger"></ion-icon>
+                                  </ion-avatar>
+
+                                  <h2> Viaje {{viaje.titulo}} - {{ viaje.estado_descrip  }}</h2>
+                                  <p>Pedido {{ this._gps.tiempoAnterior(viaje.fecha) }}</p>
+
+                              </ion-item>
+                          </ion-list>
+                      </div>
+                  </ion-col>
+               </ion-row>
+
+      </ion-grid>
+
+<div #viajes *ngIf="listado_viajes">
+    <ion-list>
+        <button ion-item *ngFor="let viaje of viajes" (click)="viajeSolicitado(viaje)">
+          Viaje {{ viaje }}
+        </button>
+    </ion-list>
+</div>
+
+</ion-content>
+-->

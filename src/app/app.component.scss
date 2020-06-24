@@ -1,0 +1,135 @@
+@import './theme';
+@import './function';
+
+domicilios-frecuentes{
+  background: var(--navBackground); //#343a40;
+  opacity: 0.8;
+}
+
+mat-sidenav{
+  //height: fit-content;
+  background-color:var(--navColor) !important ;
+
+  //color:var(--navBackground) !important  ;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+ mat-toolbar  {
+  position: sticky;
+  cursor: pointer;
+  top: 0;
+  background-color: var(--navBackground)  !important ;
+  color:var(--navColor) !important  ;
+}
+
+.nav-item{
+    padding-left: 10px;
+}
+
+.pepinNav{
+  text-align: center;
+  float:right;
+  position: absolute;
+  //width: 20%;
+  right: 2%;
+}
+
+.bg-dark{
+    position: relative;
+    height: 55px;
+}
+
+::ng-deep .my-menu .mat-menu-content {
+    background: var(--navBackground); //#343a40;
+    //color: #FFFFFF;
+}
+
+$foto : var(--fotoLogin);
+@background: var(--navBackground);
+
+.login{
+      //width: 30%;
+      background: linear-gradient(gray, var(--navBackground) );
+     // background-image: url( '/images/fondologin.php' );
+      padding: 40px;
+      border-radius: 10px;
+      opacity: 0.8;
+      z-index: 2;
+      top: 200%;
+      left: 40%;
+      width: 22em;
+      position: absolute;
+      text-align: center;
+}
+
+
+.sidenav-container{
+    position: relative;
+    //width: -webkit-fill-available;
+    height: -webkit-fill-available;
+
+}
+p{
+    padding-top: 3px;
+}
+
+.mat-input-element{
+    width: 100% !important;
+}
+
+mat-form-field{
+     //background-color: var(--navColor);
+     padding: 1.2em 10px 0px 0.7em;
+     border-radius: 5px;
+     width: 18em;
+     //padding-bottom: 0.7em !important;
+    //position: absolute  ;
+    //top: 10%  ;
+    //width: 300px  ;
+}
+
+.btn{
+  background-color: var(--navColor);
+  color: var(--navBackground);
+}
+
+mat-horizontal-stepper{
+  background-color: inherit;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    //overflow: hidden;
+    //background-color: #333333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    text-align: center;
+    padding: 16px;
+}
+
+.img_logo{
+    width: 50px;
+    height: auto;
+    border-radius: 10px;
+    position: absolute;
+    left: 50%;
+}
+
+.img_icono_login{
+  width: 90px ;
+  border-radius: 10px;
+  height: auto ;
+  position: relative ;
+  //left: 50% !important;
+}

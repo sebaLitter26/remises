@@ -1,0 +1,35 @@
+<mat-card [formGroup]="form">
+
+    <mat-card-content [ngSwitch]="question.controlType">
+      <mat-card-title [attr.for]="question.key"  *ngSwitchCase="'slider'">{{question.label}}</mat-card-title>
+
+      <!--  <input *ngSwitchCase="'textbox'" [formControlName]="question.key" [id]="question.key" [type]="question.type">   -->
+        <mat-form-field *ngSwitchCase="'textbox'">
+          <input matInput #input maxlength={{question.maxlength}} placeholder="{{question.label}}" [formControlName]="question.key" [id]="question.key" [type]="question.type">
+          <mat-hint align="end" *ngIf="input.value?.length==question.maxlength">{{question.label}}: máximo {{question.maxlength}} caracteres</mat-hint>
+          <mat-hint style="color:red" *ngIf="!isValid">Este campo es requerido</mat-hint>
+        </mat-form-field>
+
+        <input *ngSwitchCase="'radio'" [formControlName]="question.key" [id]="question.key" [type]="question.type" [value]="question.label">
+
+        <mat-form-field *ngSwitchCase="'dropdown'">
+            <!--<input type="hidden" name="question.key" [(ngModel)]="objeto" [formControlName]="question.key" >-->
+            <input type="hidden" name="question.key" [formControlName]="question.key" >
+
+            <input type="text" placeholder="Seleccionar {{ question.label }}" matInput [formControl]="myControl" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                    {{option.value}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+        <mat-slide-toggle *ngSwitchCase="'slider'"[id]="question.key" [formControlName]="question.key" color=primary (change)="toggleFunction($event)"></mat-slide-toggle>
+
+        <!--
+        <app-mapa *ngSwitchCase="'map'"> </app-mapa>
+        -->
+
+    </mat-card-content>
+
+    <!--<div class="errorMessage" *ngIf="!isValid">Campo requerido</div>-->
+</mat-card>

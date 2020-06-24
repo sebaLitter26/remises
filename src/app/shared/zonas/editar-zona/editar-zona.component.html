@@ -1,0 +1,149 @@
+
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()" *ngIf="!edicionCorrecta">
+	<div class="container">
+
+
+		<div class='row'>
+
+
+
+			<div class="col">
+
+				<mat-form-field>
+					<input matInput formControlName="nombre" class="form-control mr-sm-2" type="text"
+						placeholder="Nombre" #nombre (focus)="focus()">
+
+					</mat-form-field>
+			</div>
+
+			<div class="col">
+
+				<mat-form-field>
+					<input matInput formControlName="zonasmensajes" class="form-control mr-sm-2" type="text"
+						placeholder="Zona Mensajes" #zonasmensajes (focus)="focus()">
+
+					</mat-form-field>
+			</div>
+
+
+
+			<div class="col">
+				<mat-form-field >
+					<mat-label>Modo</mat-label>
+						  <mat-select formControlName="modo" >
+							<mat-option [value]=0>Permanente</mat-option>
+							<mat-option [value]=1>Diurna</mat-option>
+							<mat-option [value]=2>Nocturna</mat-option>
+					  </mat-select>
+				</mat-form-field>
+			</div>
+
+			<div class="col">
+				<mat-form-field>
+					<mat-label>Sentido de Parada</mat-label>
+						  <mat-select formControlName="sentidoparada" >
+							<mat-option [value]="-1">Sin Sentido</mat-option>
+							<mat-option [value]="0">Norte</mat-option>
+							<mat-option [value]="45">NorEste</mat-option>
+							<mat-option [value]="90">Este</mat-option>
+							<mat-option [value]="135">SurEste</mat-option>
+							<mat-option [value]="180">Sur</mat-option>
+							<mat-option [value]="225">SurOeste</mat-option>
+							<mat-option [value]="270">Oeste</mat-option>
+							<mat-option [value]="315">NorOeste</mat-option>
+					  </mat-select>
+				</mat-form-field>
+			</div>
+
+			<div class="col">
+					<mat-form-field>
+
+							<mat-label>Estado</mat-label>
+							<mat-select formControlName="estado" >
+								  <mat-button-toggle [value]="0">Inactiva</mat-button-toggle>
+								  <mat-button-toggle [value]="1">Activa</mat-button-toggle>
+								  <mat-button-toggle [value]="2">Desactivada</mat-button-toggle>
+							</mat-select>
+					</mat-form-field>
+			</div>
+
+
+
+		</div>
+
+		<div class='row'>
+<!--
+				<div class="col">
+
+						<mat-form-field >
+
+								<mat-label>Orden de las Paradas</mat-label>
+								<mat-select formControlName="ordenparadas" >
+									<mat-button-toggle *ngFor="let zona_nombre of zona.zonas_selector" [value]="zona_nombre.idzona">{{zona_nombre.nombre}}</mat-button-toggle>
+
+								</mat-select>
+						</mat-form-field>
+
+						{{zona.zonas_selector[2] | json}}
+				</div>
+-->
+		</div>
+
+		<div class='row'>
+			<div class='col-6'>
+				<button type="button" (click)="onSubmit()" class="btn btn-success" >Modificar</button> <!--[disabled]="!direccionValida" -->
+			</div>
+			<div class='col-3'>
+				<button type="button" class="btn btn-danger" (click)="descartar_cambios()" style="font-style: italic">Cancelar</button>
+			</div>
+
+			<div class='col-3'>
+				<i class="material-icons" *ngIf='!editar_mas' (click)="editar_mas=!editar_mas">arrow_downward</i>
+				<i class="material-icons" *ngIf='editar_mas' (click)="editar_mas=!editar_mas">arrow_upward</i>
+			</div>
+
+		</div>
+
+		<div class='custom-float-button row' *ngIf='editar_mas'>
+			<!--
+			<div class='col-4'>
+				<button type="button" (click)="editar_tramo()" class="btn btn-success" >Editar Tramo</button>
+			</div>
+			-->
+			<div class='col-6'>
+				<button type="button" class="btn btn-secondary" (click)="invertir_sentido()" style="font-style: italic">Invertir Numeración</button>
+			</div>
+			<div class='col-6'>
+				<button type="button" class="btn btn-danger" (click)="borrar_tramo()" style="font-style: italic">Borrar</button>
+			</div>
+
+
+		</div>
+
+	</div>
+</form>
+
+
+
+
+<div class="alert alert-success" role="alert" *ngIf="edicionCorrecta&&!borradoCorrecto">
+  El tramo ha sido cargado con éxito.
+</div>
+
+<div class="alert alert-info" role="alert" *ngIf="borradoCorrecto">
+  La modificación se realizó correctamente.
+</div>
+
+
+<!--
+		<mat-form-field>
+			<textarea matInput [(ngModel)]="formulario.observacion" name="observaciones" placeholder= "Realice las observaciones pertinentes" > </textarea>
+		</mat-form-field>
+
+
+		<button type="button" class="btn btn-secondary" (click)="limpiar_formulario()" style="font-style: italic">Limpiar datos</button>
+		<button type="submit" class="btn btn-success" [disabled]="!direccionValida">Confirmar viaje</button>
+	</form>
+
+
+-->

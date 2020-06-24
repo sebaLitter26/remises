@@ -1,0 +1,120 @@
+.example-container {
+  //height: 400px;
+  //width: 900px;
+  //overflow: auto;
+}
+
+table {
+  width: 99%;
+}
+
+td.mat-column-star {
+  width: 30px;
+  padding: 0 8px 8px 0 ;
+}
+
+th.mat-column-position, td.mat-column-position {
+  padding-left: 8px;
+}
+
+.ng-star-inserted{
+    margin: 8px;
+}
+
+
+
+.mat-cell, .mat-header-cell {
+    padding: 0 15px 0 15px  ;
+}
+
+form{
+    margin: 8px;
+}
+
+
+.mat-table-sticky:first-child {
+  border-right: 1px solid #e0e0e0;
+}
+
+.mat-table-sticky:last-child {
+  border-left: 1px solid #e0e0e0;
+  cursor: pointer;
+}
+
+.agregar_param{
+
+    position: relative;
+    float: right;
+
+
+}
+
+.row{
+    //width: fit-content;
+}
+
+.mat-standard-chip{
+    margin: 13px !important;
+    color: black;
+}
+
+.agregar_especial{
+    /*
+    position: absolute;
+    right: 5em;
+    background: lightgrey;
+    border-radius: 5px;
+    */
+    margin: 2px;
+
+    position: relative;
+   float: right;
+
+}
+
+
+.example-form {
+  min-width: 150px;
+  max-width: 300px;
+  //width: 100%;
+}
+
+.example-panel-green.mat-select-panel {
+  background: rgba(0, 255, 0, 0.5);
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.example-option-img {
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+[dir='rtl'] .example-option-img {
+  margin-right: 0;
+  margin-left: 8px;
+}
+
+
+.permiso-habilitado{
+    color: white ;
+    background-color: green;
+}
+
+.permiso-deshabilitado{
+    color: white ;
+    background-color: red;
+}
+
+
+
+app-configuracion-detalle{
+
+}
+
+app-configuracion{
+    padding-top: 3% !important;
+    display: block;
+}

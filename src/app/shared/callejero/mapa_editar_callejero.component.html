@@ -1,0 +1,31 @@
+<div id="map" class="map"></div>
+<div id="tooltip"></div>
+
+<div id="popup" class="ol-popup">
+   <a  id="popup-closer" class="ol-popup-closer"></a>
+   <div id="popup-content"></div>
+   <editar-calle></editar-calle>
+
+</div>
+
+<div class='custom-float-button'  *ngIf="_ubi.usuario_logueado" color="warn">
+    <!--
+    <button mat-fab *ngIf='!editar_mass && modoEdicion' (click)="borrar_tramo()">
+        <i class="material-icons"  >delete_forever</i>
+    </button>
+    -->
+   <button mat-fab *ngIf='modoEdicion' (mouseover)="mouse_over('edicion_multiple')" (mouseout)="mouse_over('')" (click)="editar_muchos_tramos()" >
+        <i class="material-icons"  >tab_unselected</i>
+    </button>
+    <button mat-fab *ngIf='modoEdicion' color="primary"  (mouseover)="mouse_over('edicion')" (mouseout)="mouse_over('')" (click)="editar_tramo()" >
+        <i class="material-icons" >border_color</i>
+    </button>
+    <button mat-fab *ngIf='modoEdicion' (mouseover)="mouse_over('nuevo')" (mouseout)="mouse_over('')" color="primary"  (click)="nuevo_tramo()" >
+        <i class="material-icons" >add_circle_outline</i>
+    </button>
+    <button mat-fab color="primary"   (click)="modoEdicion = !modoEdicion;" >
+        <i class="material-icons"  >build</i>
+
+    </button>
+    <div id="descripcion">{{descripcion}}</div>
+</div>

@@ -1,0 +1,61 @@
+
+<div class="row" *ngIf="loading">
+    <div class="col">
+      <div class="alert alert-info text-center">
+        <i class="fa fa-sync fa-spin fa-2x"></i>
+        <h1>Espere...</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="error">
+      <div class="col">
+        <div class="alert alert-danger text-center">
+          <i class="fa fa-times fa-2x"></i>
+          <h2>Error: {{  error.status }} </h2>
+          <p>
+            {{ error.message }}
+            <br><br>
+            {{ error.url }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+
+<div class="row" *ngIf="!error && !loading">
+
+  <div class="col-3">
+    <img [src]="user.foto" class="img-thumbnail">
+  </div>
+
+  <div class="col-3">
+
+    <ul class="list-group">
+      <li class="list-group-item">
+          <strong>ID</strong>
+          {{ user.idusuario }}
+      </li>
+      <li class="list-group-item">
+          <strong>Nombre</strong>
+          {{ user.nombre }}
+      </li>
+      <li class="list-group-item">
+          <strong>Apellido</strong>
+          {{ user.apellido }}
+      </li>
+    </ul>
+  </div>
+  <div class="col-2">
+
+    <button mat-fab color="primary" (click)="modificar_usuario()">
+        <i class="material-icons">edit</i>
+    </button>
+    <button mat-fab color="warn" (click)="eliminar_usuario()">
+        <i class="material-icons">delete_forever</i>
+    </button>
+  </div>
+
+  <app-lista></app-lista>
+</div>

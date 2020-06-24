@@ -1,0 +1,9 @@
+<div align='center' class="loading" *ngIf="!estado">
+	<mat-spinner></mat-spinner>
+	Cargando...
+</div>
+
+	<app-dynamic-form  [datos_form]="datos_form" *ngIf="estado" ></app-dynamic-form>
+	<app-grilla [datos_form]="datos_form" *ngIf="estado" ></app-grilla>
+
+	<app-facturacion *ngIf="datos_form.tabla=='facturacion'"> </app-facturacion>

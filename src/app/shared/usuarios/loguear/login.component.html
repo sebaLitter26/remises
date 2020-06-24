@@ -1,0 +1,31 @@
+
+
+<div class="fondo">
+
+
+        <form [formGroup]="formGroup" (ngSubmit)="loguearse()" >
+            <mat-form-field  [hideRequiredMarker]= "true" shouldLabelFloat= "false">
+              <input matInput  formControlName="usuario"  class="form-control mr-sm-2" type="text" placeholder="Usuario" autofocus>
+
+            </mat-form-field>
+
+            <p>
+                <mat-form-field  [hideRequiredMarker]= "true" shouldLabelFloat= "false" >
+                  <input matInput  formControlName="pass"  class="form-control mr-sm-2" type="password" placeholder="Contraseña">
+                </mat-form-field>
+            </p>
+
+            <button class="btn btn-outline-success " type="submit">
+                Entrar
+                <i class="material-icons">vpn_key</i>
+             </button>
+
+
+        </form>
+<!--
+        <button class="btn btn-outline-success" *ngIf='_ubi.usuario_logueado' (click)='_ubi.cerrar_session()'>
+            <i class="material-icons">lock</i>
+            {{_ubi.usuario.nombre +' '+ _ubi.usuario.apellido }}
+         </button>
+-->
+</div>

@@ -1,0 +1,36 @@
+mat-hint{
+  font-style: italic;
+}
+
+.material-icons{
+    float:right;
+    z-index: 2;
+}
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+}
+
+::ng-deep .mat-option.calle-option{
+  height:initial!important;
+  width:300px;
+  //overflow-wrap: break-word !important;
+  //word-wrap: break-word !important;
+  white-space: normal !important;
+  line-height: 1.5 !important;
+}
+
+.mat-option.calle-option:hover {
+    background-color: #DCDCDC;
+}
+mat-form-field{
+    width: fit-content !important  ;
+}
+
+/*
+textarea{
+  rows: "2";
+  width: 300px;
+}
+*/

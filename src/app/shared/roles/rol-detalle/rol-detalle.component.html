@@ -1,0 +1,59 @@
+{{rol_seleccionado| json }}
+
+
+<div class="row" *ngIf="rol_seleccionado">
+    <div class="col">
+
+        <div class="example-container mat-elevation-z8">
+          <table mat-table [dataSource]="menu">
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="descripcion" sticky>
+              <th mat-header-cell *matHeaderCellDef> Descripcion </th>
+              <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+            </ng-container>
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="permisoshabilitados">
+              <th mat-header-cell *matHeaderCellDef> Permisos Habilitados </th>
+              <td mat-cell *matCellDef="let element" (click)="solicitar_permiso_especiales(element)">
+
+                  <button mat-raised-button
+                          [ngClass]="getEstadoPermiso(element, permiso_boton)"
+                          (click)="cambiar_permiso(element, permiso_boton)"
+                          *ngFor="let permiso_boton of recorrer_permisos_a_mostrar(element.permisoshabilitados)"
+                    >
+
+                      {{permiso_boton.descripcion}}
+                  </button>
+
+                  <mat-chip-list *ngIf="permisos_especiales && permisos_especiales.length >0">
+                      Permisos Especiales:
+                        <mat-chip  (click)="_roles.permiso_seleccionado(acceso_personal)" [ngStyle]="getColor(i)"  *ngFor="let acceso_personal of permisos_especiales; let i = index;">
+                                {{acceso_personal.nombre | uppercase}} {{ acceso_personal.apellido | uppercase}}
+                        </mat-chip>
+                  </mat-chip-list>
+            </td>
+
+
+            </ng-container>
+
+
+
+            <!-- Star Column
+            <ng-container matColumnDef="star" stickyEnd>
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element" (click)="_roles.permiso_seleccionado(element)">
+                <mat-icon >more_vert</mat-icon>
+              </td>
+            </ng-container>
+-->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+
+
+    </div>
+
+        </div>

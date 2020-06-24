@@ -1,0 +1,276 @@
+
+<mat-vertical-stepper [linear]="true" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Origen</ng-template>
+	  <!--
+	  				<mat-slide-toggle formControlName="seleccion_buscador" >
+	  					Photon/Callejero
+	  				</mat-slide-toggle>
+	  -->
+
+
+	  			<div class="alert alert-dark" *ngIf="errorGeocoding">
+	  				<strong>¡Atención!</strong>
+	  				<br>Datos no encontrados para el punto...
+	  				<div style="font-style: italic">
+	  						<strong>Ingrese una calle y altura</strong>
+	  					</div>
+	  			</div>
+
+
+	  <!--LOCALIDAD-->
+	  			<div class="col">
+	  				<mat-form-field >
+	  					<mat-label>Localidad</mat-label>
+	  					  <mat-select formControlName="localidadControl" [(value)]="_ubi.localidad" (selectionChange)="cambio_localidad_manual()" >
+	  							<mat-option *ngFor="let localidad of _ubi.localidades" [value]="localidad">
+	  								{{localidad}}
+	  							</mat-option>
+	  					  </mat-select>
+	  				</mat-form-field>
+	  			</div>
+
+
+	  			<!--
+	  			//En las opciones del select que muestre "calle, localidad" pero que en el formulario sólo se vea "calle"
+	  			//Si encuentra la calle de otra localidad, que modifique la localidad en el select
+	  			-->
+	  			<div class='col'>
+	  				<div class="row">
+	  <!--CALLE-->
+	  						<div class="col-10">
+	  							<mat-form-field>
+	  								<input *ngIf="geoCoding" matInput formControlName="calle" class="form-control mr-sm-2" type="text"
+	  								placeholder="Calle" #calle (focus)="focusCalle()" (blur)="blurCalle()"
+	  								[ngStyle]="{'background-color': errorDeCalle ? 'rgb(255, 0, 0, 0.5)' : 'rgb(255, 255, 255, 0.5)' }">
+
+	  								<input *ngIf="!geoCoding" matInput formControlName="calle" class="form-control mr-sm-2" type="text"
+	  								placeholder="Calle" [matAutocomplete]="auto" #calle (focus)="focusCalle()" (blur)="blurCalle()"
+	  								[ngStyle]="{'background-color': errorDeCalle ? 'rgb(255, 0, 0, 0.5)' : 'rgb(255, 255, 255, 0.5)' }">
+	  								<mat-hint *ngIf="errorDeCalle" style="color:red">Calle no encontrada</mat-hint>
+	  								<mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayCalle">
+	  									<mat-optgroup *ngFor="let option of filteredOptions | async" [label]="option.localidad">
+	  										<mat-option class="calle-option"*ngFor="let domicilio of option.calles" [value]="domicilio">
+	  											{{displayCalle(domicilio)}}
+	  										</mat-option>
+	  									</mat-optgroup>
+	  								</mat-autocomplete>
+	  							</mat-form-field>
+	  						</div>
+	  						<div class="col-2">
+	  							 <i class="material-icons" (click)='ubicar()'>gps_fixed</i>
+	  						 </div>
+	  					</div>
+	  				</div>
+
+	  <!--ALTURA-->
+	  			<div class="col">
+	  				<mat-form-field>
+	  					<input matInput formControlName="altura" class="form-control mr-sm-2" type="number"
+	  						placeholder="Altura" #altura (focus)="focusAltura()"
+	  						[ngStyle]="{'background-color': errorDeAltura ? 'rgb(255, 0, 0, 0.5)' : 'rgb(255, 255, 255, 0.5)' }">
+	  						<mat-hint *ngIf="errorDeAltura" style="color:red">Altura no encontrada</mat-hint>
+	  						<mat-hint *ngIf="entreCalles!=''" style="color:black"> {{entreCalles}} </mat-hint>
+
+	  					<!--	<mat-hint *ngIf="direccionValida==false&&busquedaInfructuosa==true" style="color:red">Altura no encontrada</mat-hint> 	-->
+	  				</mat-form-field>
+	  			</div>
+
+	  <!--INTERSECCION-->
+	  			<div class="col-10">  <!--*ngIf="buscaCallejero"-->
+	  				<mat-form-field>
+
+	  					<input matInput formControlName="interseccion" class="form-control mr-sm-2" type="text"
+	  					placeholder="Intersección" [matAutocomplete]="interseccion" #interseccion
+	  					[ngStyle]="{'background-color': errorDeInterseccion ? 'rgb(255, 0, 0, 0.5)' : 'rgb(255, 255, 255, 0.5)' }">
+	  					<mat-hint *ngIf="errorDeInterseccion" style="color:red">Intersección no encontrada</mat-hint>
+	  					<mat-autocomplete #interseccion="matAutocomplete" [displayWith]="displayCalle">
+	  						<mat-optgroup *ngFor="let interseccion of filtradoInterseccion | async" [label]="interseccion.localidad">
+	  							<mat-option class="calle-option"*ngFor="let domicilio of interseccion.calles" [value]="domicilio">
+	  								 {{displayCalle(domicilio)}}
+	  							</mat-option>
+	  						</mat-optgroup>
+	  					</mat-autocomplete>
+	  				</mat-form-field>
+	  			</div>
+
+
+	  <!--
+	  			<div *ngIf="calleValida">
+	  					{{alturaInput.nativeElement.focus()}}
+	  			</div>
+	  -->
+
+	  			<div class="alert alert-danger" *ngIf="direccionValida==false&&busquedaInfructuosa==true">
+	  				<strong>¡Atención!<div *ngIf="errorDeAltura && errorDeInterseccion">Dirección no encontrada...</div></strong>
+	  					<div style="font-style: italic">
+	  						<div *ngIf="errorDeAltura && !errorDeInterseccion">Ingrese una intersección o</div>
+	  						<div *ngIf="errorDeInterseccion && !errorDeAltura">Ingrese una altura o</div>
+	  						seleccione en el mapa el punto donde realizará el pedido.
+	  					</div>
+	  			</div>
+
+
+
+	  	<div class='row'>
+	  		<div class='col-6'>
+				<button mat-button matStepperNext>Next</button>
+	  			<!--<button type="submit" class="btn btn-success" >Pedir</button> <!--[disabled]="!direccionValida||!validacionOptativos" -->
+	  		</div>
+	  		<div class='col-6'>
+	  			<button type="button" class="btn btn-secondary" (click)="reiniciar_datos()" style="font-style: italic">Limpiar</button>
+	  		</div>
+	  	</div>
+
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Destino</ng-template>
+
+	  <div class="alert alert-dark" *ngIf="errorGeocoding">
+		  <strong>¡Atención!</strong>
+		  <br>Datos no encontrados para el punto...
+		  <div style="font-style: italic">
+				  <strong>Ingrese una calle y altura</strong>
+			  </div>
+	  </div>
+
+
+<!--LOCALIDAD-->
+	  <div class="col">
+		  <mat-form-field >
+			  <mat-label>Localidad</mat-label>
+				<mat-select formControlName="localidadControl" [(value)]="_ubi.localidad" (selectionChange)="cambio_localidad_manual()" >
+					  <mat-option *ngFor="let localidad of _ubi.localidades" [value]="localidad">
+						  {{localidad}}
+					  </mat-option>
+				</mat-select>
+		  </mat-form-field>
+	  </div>
+
+
+	  <!--
+	  //En las opciones del select que muestre "calle, localidad" pero que en el formulario sólo se vea "calle"
+	  //Si encuentra la calle de otra localidad, que modifique la localidad en el select
+	  -->
+	  <div class='col'>
+		  <div class="row">
+<!--CALLE-->
+				  <div class="col-10">
+					  <mat-form-field>
+						  <input *ngIf="geoCoding" matInput formControlName="calle" class="form-control mr-sm-2" type="text"
+						  placeholder="Calle" #calle (focus)="focusCalle()" (blur)="blurCalle()"
+						  [ngStyle]="{'background-color': errorDeCalle ? 'rgb(255, 0, 0, 0.5)' : 'rgb(255, 255, 255, 0.5)' }">
+
+						  <input *ngIf="!geoCoding" matInput formControlName="calle" class="form-control mr-sm-2" type="text"
+						  placeholder="Calle" [matAutocomplete]="auto" #calle (focus)="focusCalle()" (blur)="blurCalle()"
+						  [ngStyle]="{'background-color': errorDeCalle ? 'rgb(255, 0, 0, 0.5)' : 'rgb(255, 255, 255, 0.5)' }">
+						  <mat-hint *ngIf="errorDeCalle" style="color:red">Calle no encontrada</mat-hint>
+						  <mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayCalle">
+							  <mat-optgroup *ngFor="let option of filteredOptions | async" [label]="option.localidad">
+								  <mat-option class="calle-option"*ngFor="let domicilio of option.calles" [value]="domicilio">
+									  {{displayCalle(domicilio)}}
+								  </mat-option>
+							  </mat-optgroup>
+						  </mat-autocomplete>
+					  </mat-form-field>
+				  </div>
+				  <div class="col-2">
+					   <i class="material-icons" (click)='ubicar()'>gps_fixed</i>
+				   </div>
+			  </div>
+		  </div>
+
+<!--ALTURA-->
+	  <div class="col">
+		  <mat-form-field>
+			  <input matInput formControlName="altura" class="form-control mr-sm-2" type="number"
+				  placeholder="Altura" #altura (focus)="focusAltura()"
+				  [ngStyle]="{'background-color': errorDeAltura ? 'rgb(255, 0, 0, 0.5)' : 'rgb(255, 255, 255, 0.5)' }">
+				  <mat-hint *ngIf="errorDeAltura" style="color:red">Altura no encontrada</mat-hint>
+				  <mat-hint *ngIf="entreCalles!=''" style="color:black"> {{entreCalles}} </mat-hint>
+
+			  <!--	<mat-hint *ngIf="direccionValida==false&&busquedaInfructuosa==true" style="color:red">Altura no encontrada</mat-hint> 	-->
+		  </mat-form-field>
+	  </div>
+
+<!--INTERSECCION-->
+	  <div class="col-10">  <!--*ngIf="buscaCallejero"-->
+		  <mat-form-field>
+
+			  <input matInput formControlName="interseccion" class="form-control mr-sm-2" type="text"
+			  placeholder="Intersección" [matAutocomplete]="interseccion" #interseccion
+			  [ngStyle]="{'background-color': errorDeInterseccion ? 'rgb(255, 0, 0, 0.5)' : 'rgb(255, 255, 255, 0.5)' }">
+			  <mat-hint *ngIf="errorDeInterseccion" style="color:red">Intersección no encontrada</mat-hint>
+			  <mat-autocomplete #interseccion="matAutocomplete" [displayWith]="displayCalle">
+				  <mat-optgroup *ngFor="let interseccion of filtradoInterseccion | async" [label]="interseccion.localidad">
+					  <mat-option class="calle-option"*ngFor="let domicilio of interseccion.calles" [value]="domicilio">
+						   {{displayCalle(domicilio)}}
+					  </mat-option>
+				  </mat-optgroup>
+			  </mat-autocomplete>
+		  </mat-form-field>
+	  </div>
+
+
+<!--
+	  <div *ngIf="calleValida">
+			  {{alturaInput.nativeElement.focus()}}
+	  </div>
+-->
+
+	  <div class="alert alert-danger" *ngIf="direccionValida==false&&busquedaInfructuosa==true">
+		  <strong>¡Atención!<div *ngIf="errorDeAltura && errorDeInterseccion">Dirección no encontrada...</div></strong>
+			  <div style="font-style: italic">
+				  <div *ngIf="errorDeAltura && !errorDeInterseccion">Ingrese una intersección o</div>
+				  <div *ngIf="errorDeInterseccion && !errorDeAltura">Ingrese una altura o</div>
+				  seleccione en el mapa el punto donde realizará el pedido.
+			  </div>
+	  </div>
+
+
+<!--
+<div class='row'>
+  <div class='col-6'>
+	  <button type="submit" class="btn btn-success" >Pedir</button> <!--[disabled]="!direccionValida||!validacionOptativos"
+  </div>
+  <div class='col-6'>
+	  <button type="button" class="btn btn-secondary" (click)="reiniciar_datos()" style="font-style: italic">Limpiar</button>
+  </div>
+</div>
+-->
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+		<button type="button" class="btn btn-secondary" (click)="reiniciar_datos()" style="font-style: italic">Limpiar</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Presupuesto</ng-template>
+    You are now done.
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-vertical-stepper>
+
+
+
+
+
+<!--
+		<mat-form-field>
+			<textarea matInput [(ngModel)]="formulario.observacion" name="observaciones" placeholder= "Realice las observaciones pertinentes" > </textarea>
+		</mat-form-field>
+
+
+		<button type="button" class="btn btn-secondary" (click)="limpiar_formulario()" style="font-style: italic">Limpiar datos</button>
+		<button type="submit" class="btn btn-success" [disabled]="!direccionValida">Confirmar viaje</button>
+	</form>
+
+
+-->

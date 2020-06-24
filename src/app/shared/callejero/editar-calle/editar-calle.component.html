@@ -1,0 +1,170 @@
+
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()" *ngIf="!edicionCorrecta">
+	<div class="container">
+		<div class='row'>
+				<div class="col">
+					<mat-form-field >
+						<mat-label>Localidad</mat-label>
+						  <mat-select formControlName="localidad" [(value)]="_ubi.localidad" (selectionChange)="cambio_localidad_manual()" >
+								<mat-option *ngFor="let localidad of _ubi.localidades" [value]="localidad">
+									{{localidad}}
+								</mat-option>
+						  </mat-select>
+					</mat-form-field>
+				</div>
+			</div>
+			<div class='row'>
+
+				<!--
+				//En las opciones del select que muestre "calle, localidad" pero que en el formulario sólo se vea "calle"
+				//Si encuentra la calle de otra localidad, que modifique la localidad en el select
+				-->
+
+				<div class="col">
+
+					<mat-form-field>
+						<input matInput formControlName="nombre" class="form-control mr-sm-2" type="text"
+							placeholder="Nombre" #nombre (focus)="focus()"
+							[ngStyle]="{'background-color': errorDeAltura ? 'rgb(255, 0, 0, 0.5)' : 'rgb(255, 255, 255, 0.5)' }">
+							<mat-hint *ngIf="errorDeAltura" style="color:red">Nombre no encontrada</mat-hint>
+							<mat-hint *ngIf="entreCalles!=''" style="color:black"> {{entreCalles}} </mat-hint>
+
+						<!--	<mat-hint *ngIf="direccionValida==false&&busquedaInfructuosa==true" style="color:red">Altura no encontrada</mat-hint> 	-->
+					</mat-form-field>
+				</div>
+
+
+	            <div class="col">
+					<mat-form-field>
+
+
+						<input matInput formControlName="alias" class="form-control mr-sm-2" type="text"
+							placeholder="Alias" #alias
+							[ngStyle]="{'background-color': errorDeAltura ? 'rgb(255, 0, 0, 0.5)' : 'rgb(255, 255, 255, 0.5)' }">
+							<mat-hint *ngIf="errorDeAltura" style="color:red">Alias no encontrada</mat-hint>
+
+					</mat-form-field>
+				</div>
+		</div>
+		<div class='row'>
+		<!--ALTURA-->
+				<div class="col">
+					<mat-form-field>
+						<input matInput formControlName="desde_par" class="form-control mr-sm-2" type="number"
+							placeholder="Altura inicial" #desde_par (focus)="focus()"
+							[ngStyle]="{'background-color': errorDeAltura ? 'rgb(255, 0, 0, 0.5)' : 'rgb(255, 255, 255, 0.5)' }">
+							<mat-hint *ngIf="errorDeAltura" style="color:red">Altura no encontrada</mat-hint>
+							<mat-hint *ngIf="entreCalles!=''" style="color:black"> {{entreCalles}} </mat-hint>
+
+						<!--	<mat-hint *ngIf="direccionValida==false&&busquedaInfructuosa==true" style="color:red">Altura no encontrada</mat-hint> 	-->
+					</mat-form-field>
+				</div>
+
+
+	            <div class="col">
+					<mat-form-field>
+						<input matInput formControlName="cantidad_tramo" class="form-control mr-sm-2" type="number"
+							placeholder="Cant. de n° en el tramo" #cantidad_tramo (change)="focus()"
+							[ngStyle]="{'background-color': errorDeAltura ? 'rgb(255, 0, 0, 0.5)' : 'rgb(255, 255, 255, 0.5)' }">
+							<mat-hint *ngIf="errorDeAltura" style="color:red">Altura no encontrada</mat-hint>
+
+						<!--	<mat-hint *ngIf="direccionValida==false&&busquedaInfructuosa==true" style="color:red">Altura no encontrada</mat-hint> 	-->
+					</mat-form-field>
+				</div>
+
+
+
+			<div class="col">
+				<mat-form-field >
+					<mat-label>Tipo Calle</mat-label>
+						  <mat-select formControlName="tipocalle" >
+							<mat-option [value]=0>Peatonal</mat-option>
+							<mat-option [value]=1>Calle</mat-option>
+							<mat-option [value]=2>Avenida</mat-option>
+							<mat-option [value]=3>Autopista</mat-option>
+							<mat-option [value]=4>Ruta</mat-option>
+	            			<mat-option [value]=5>Cortada</mat-option>
+					  </mat-select>
+				</mat-form-field>
+			</div>
+
+			<div class="col">
+				<mat-form-field >
+					<mat-label>Sentido de circulación</mat-label>
+						  <mat-select formControlName="sentido" >
+							<mat-option [value]=0>Doble Mano</mat-option>
+							<mat-option [value]=1>Igual a como sube la numeracion</mat-option>
+							<mat-option [value]=2>Contrario a como sube la numeracion</mat-option>
+					  </mat-select>
+				</mat-form-field>
+			</div>
+		</div>
+	<!--
+		<div class="col">
+				<mat-form-field >
+						<mat-button-toggle-group   formControlName="sentido" name="fontStyle" aria-label="Font Style">
+					  <mat-button-toggle value=0>Doble Mano</mat-button-toggle>
+					  <mat-button-toggle value=1>Desde->Hasta</mat-button-toggle>
+					  <mat-button-toggle value=2>Hasta->Desde</mat-button-toggle>
+					</mat-button-toggle-group>
+				</mat-form-field>
+	</div>
+	-->
+		<div class='row'>
+			<div class='col-6'>
+				<button type="button" (click)="onSubmit()" class="btn btn-success" >Modificar</button> <!--[disabled]="!direccionValida" -->
+			</div>
+			<div class='col-3'>
+				<button type="button" class="btn btn-danger" (click)="descartar_cambios()" style="font-style: italic">Cancelar</button>
+			</div>
+
+			<div class='col-3'>
+				<i class="material-icons" *ngIf='!editar_mas' (click)="editar_mas=!editar_mas">arrow_downward</i>
+				<i class="material-icons" *ngIf='editar_mas' (click)="editar_mas=!editar_mas">arrow_upward</i>
+			</div>
+
+		</div>
+
+		<div class='custom-float-button row' *ngIf='editar_mas'>
+			<!--
+			<div class='col-4'>
+				<button type="button" (click)="editar_tramo()" class="btn btn-success" >Editar Tramo</button>
+			</div>
+			-->
+			<div class='col-6'>
+				<button type="button" class="btn btn-secondary" (click)="invertir_sentido()" style="font-style: italic">Invertir Numeración</button>
+			</div>
+			<div class='col-6'>
+				<button type="button" class="btn btn-danger" (click)="borrar_tramo()" style="font-style: italic">Borrar</button>
+			</div>
+
+
+		</div>
+
+	</div>
+</form>
+
+
+
+
+<div class="alert alert-success" role="alert" *ngIf="edicionCorrecta&&!borradoCorrecto">
+  El tramo ha sido cargado con éxito.
+</div>
+
+<div class="alert alert-info" role="alert" *ngIf="borradoCorrecto">
+  La modificación se realizó correctamente.
+</div>
+
+
+<!--
+		<mat-form-field>
+			<textarea matInput [(ngModel)]="formulario.observacion" name="observaciones" placeholder= "Realice las observaciones pertinentes" > </textarea>
+		</mat-form-field>
+
+
+		<button type="button" class="btn btn-secondary" (click)="limpiar_formulario()" style="font-style: italic">Limpiar datos</button>
+		<button type="submit" class="btn btn-success" [disabled]="!direccionValida">Confirmar viaje</button>
+	</form>
+
+
+-->

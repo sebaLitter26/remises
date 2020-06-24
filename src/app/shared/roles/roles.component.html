@@ -1,0 +1,151 @@
+
+
+<mat-chip-list>
+  <mat-chip  (click)="solicitar_permisos_habilitados(rol.idgrupo)" [ngStyle]="getColor(i)"  *ngFor="let rol of grupos; let i = index;">{{rol.descripcion | uppercase}}</mat-chip>
+</mat-chip-list>
+
+<mat-form-field >
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrar">
+  </mat-form-field>
+
+<div class="row" >
+    <div class="col">
+
+        <div class="example-container mat-elevation-z8">
+
+            
+
+
+          <table mat-table [dataSource]="dataSource">
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="descripcion" sticky>
+              <th mat-header-cell *matHeaderCellDef> Descripcion </th>
+              <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+            </ng-container>
+
+
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="permisoshabilitados">
+              <th mat-header-cell *matHeaderCellDef> Permisos Habilitados </th>
+              <td mat-cell *matCellDef="let element" >
+
+                  <button mat-raised-button
+                          [ngClass]="getEstadoPermiso(element, permiso_boton)"
+                          (click)="cambiar_permiso_grupo(element, permiso_boton)"
+                          *ngFor="let permiso_boton of recorrer_permisos_a_mostrar(element.permisoshabilitados)"
+                    >
+
+                      {{permiso_boton.descripcion}}
+
+                  </button>
+
+                  <mat-chip class="agregar_especial" (click)="agregar_especial= true;  permisohabilitado = element.permisoshabilitados ; idmenuopcion = element.idmenuopcion ; agregarEspecialControl.reset();" >
+                      <!--<i class="material-icons" > exposure_plus_1</i>-->
+
+                      {{usuariosEspeciales(element.idmenuopcion, false)}} Permisos Especiales
+                  </mat-chip>
+
+
+                  <mat-chip-list>
+
+
+                        <mat-chip  (click)="persona_especial = acceso_personal ; permisohabilitado = element.permisoshabilitados ; idmenuopcion = element.idmenuopcion ; agregar_especial= false;" [ngStyle]="getColor(i)"  *ngFor="let acceso_personal of usuariosEspeciales(element.idmenuopcion, true); let i = index;">
+                                {{acceso_personal.nombre | uppercase}} {{ acceso_personal.apellido | uppercase}}
+                        </mat-chip>
+
+
+                  </mat-chip-list>
+            </td>
+
+
+            </ng-container>
+
+<!--
+             Star Column
+            <ng-container matColumnDef="star" stickyEnd>
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element" (click)="solicitar_permiso_especiales(element)">
+                <mat-icon >more_vert</mat-icon>
+              </td>
+            </ng-container>
+-->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+
+
+    </div>
+
+
+<div class="col" >
+    <form class="example-form" *ngIf="agregar_especial">
+          <mat-form-field class="example-full-width">
+            <input type="text" placeholder="Agregar Perfil Especial" aria-label="Number" matInput [formControl]="agregarEspecialControl" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                  <img class="example-option-img" aria-hidden [src]="option.foto" height="25">
+                    <span>{{option.nombre}} {{option.apellido}}</span>
+                    <small *ngIf="option.documento">DNI: {{option.documento}}</small>
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error>{{error}} </mat-error>
+          </mat-form-field>
+          <!--
+          <mat-chip (click)="agregar_persona_con_permiso()" >
+              <i class="material-icons" > exposure_plus_1</i>
+          </mat-chip>
+          -->
+  </form>
+
+
+<!--  persona_especial  && permisos_habilitados[idmenuopcion].usuariosEspeciales && permisos_habilitados[idmenuopcion].usuariosEspeciales.length>0 -->
+    <div  *ngIf="!agregar_especial && persona_especial && persona_especial.idmenuopcion == idmenuopcion">
+                <img class="logo" *ngIf="persona_especial.foto" src="persona_especial.foto">
+                <h3>
+                        {{persona_especial.nombre | uppercase}} {{ persona_especial.apellido | uppercase}}
+                        <button mat-fab color="warn" (click)="delete_perfil_especial(persona_especial)">
+                            <i class="material-icons">delete_forever</i>
+                        </button>
+
+                </h3>
+                <h5 *ngIf="persona_especial.numerotelefono">Telefono: {{persona_especial.numerotelefono}} </h5>
+                <h5 *ngIf="persona_especial.documento">DNI: {{persona_especial.documento}} </h5>
+                  <button mat-raised-button
+                          [ngClass]="getEstadoPermisoEspeciales(persona_especial,permiso_boton)"
+                            (click)="cambiar_permiso_especial(persona_especial, permiso_boton)"
+                          *ngFor="let permiso_boton of recorrer_permisos_a_mostrar(permisohabilitado)"
+                    >
+
+                    <!--(click)="cambiar_permiso(element, permiso_boton)" -->
+
+                      {{permiso_boton.descripcion}}
+
+                  </button>
+
+        </div>
+    </div>
+
+        <!--<app-rol-detalle></app-rol-detalle>-->
+
+<!--
+    <div class="col" *ngIf="agregar_persona_especial">
+                <img class="logo" *ngIf="agregar_persona_especial.foto" src="persona_especial.foto">
+                <h3>{{persona_especial.nombre | uppercase}} {{ persona_especial.apellido | uppercase}} </h3>
+                <h5 *ngIf="persona_especial.numerotelefono">Telefono: {{persona_especial.numerotelefono}} </h5>
+                <h5 *ngIf="persona_especial.documento">DNI: {{persona_especial.documento}} </h5>
+                  <button mat-raised-button
+                          [ngClass]="getEstadoPermiso(persona_especial,persona_especial)"
+                            (click)="cambiar_permiso(persona_especial, persona_especial)"
+                          *ngFor="let permiso_boton of recorrer_permisos_a_mostrar(permisohabilitado)"
+                    >
+
+
+                      {{permiso_boton.descripcion}}
+                  </button>
+
+    </div>
+    -->
+</div>

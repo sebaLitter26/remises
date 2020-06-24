@@ -1,0 +1,14 @@
+// default colors
+.theme-wrapper {
+
+    --navColor: #FFF;
+    --navBackground: #000;
+    --fotoLogin: #FFF;
+}
+// pass variables into a sass map
+$variables: (
+
+    --navColor: var(--navColor),
+    --navBackground: var(--navBackground),
+    --fotoLogin: var(--fotoLogin),
+);

@@ -1,0 +1,216 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()" >
+<!--
+				<mat-slide-toggle formControlName="seleccion_buscador" >
+					Photon/Callejero
+				</mat-slide-toggle>
+-->
+
+
+			<div class="alert alert-dark" *ngIf="errorGeocoding">
+				<strong>¡Atención!</strong>
+				<br>Datos no encontrados para el punto...
+				<div style="font-style: italic">
+						<strong>Ingrese una calle y altura</strong>
+					</div>
+			</div>
+
+
+<!--LOCALIDAD-->
+			<div class="col">
+				<mat-form-field >
+					<mat-label>Localidad</mat-label>
+					  <mat-select formControlName="localidadControl" [(value)]="_ubi.localidad" (selectionChange)="cambio_localidad_manual()" >
+							<mat-option *ngFor="let localidad of _ubi.localidades" [value]="localidad">
+								{{localidad}}
+							</mat-option>
+					  </mat-select>
+				</mat-form-field>
+			</div>
+
+
+			<!--
+			//En las opciones del select que muestre "calle, localidad" pero que en el formulario sólo se vea "calle"
+			//Si encuentra la calle de otra localidad, que modifique la localidad en el select
+			-->
+			<div class='col'>
+				<div class="row">
+<!--CALLE-->
+						<div class="col-10">
+							<mat-form-field>
+								<input *ngIf="geoCoding" matInput formControlName="calle" class="form-control mr-sm-2" type="text"
+								placeholder="Calle" #calle (focus)="focusCalle()" (blur)="blurCalle()"
+								[ngStyle]="{'background-color': errorDeCalle ? 'rgb(255, 0, 0, 0.5)' : 'rgb(255, 255, 255, 0.5)' }">
+
+								<input *ngIf="!geoCoding" matInput formControlName="calle" class="form-control mr-sm-2" type="text"
+								placeholder="Calle" [matAutocomplete]="auto" #calle (focus)="focusCalle()" (blur)="blurCalle()"
+								[ngStyle]="{'background-color': errorDeCalle ? 'rgb(255, 0, 0, 0.5)' : 'rgb(255, 255, 255, 0.5)' }">
+								<mat-hint *ngIf="errorDeCalle" style="color:red">Calle no encontrada</mat-hint>
+								<mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayCalle">
+									<mat-optgroup *ngFor="let option of filteredOptions | async" [label]="option.localidad">
+										<mat-option class="calle-option"*ngFor="let domicilio of option.calles" [value]="domicilio">
+											{{displayCalle(domicilio)}}
+										</mat-option>
+									</mat-optgroup>
+								</mat-autocomplete>
+							</mat-form-field>
+						</div>
+						<div class="col-2">
+							 <i class="material-icons" (click)='ubicar()'>gps_fixed</i>
+						 </div>
+					</div>
+				</div>
+
+<!--ALTURA-->
+			<div class="col">
+				<mat-form-field>
+					<input matInput formControlName="altura" class="form-control mr-sm-2" type="number"
+						placeholder="Altura" #altura (focus)="focusAltura()"
+						[ngStyle]="{'background-color': errorDeAltura ? 'rgb(255, 0, 0, 0.5)' : 'rgb(255, 255, 255, 0.5)' }">
+						<mat-hint *ngIf="errorDeAltura" style="color:red">Altura no encontrada</mat-hint>
+						<mat-hint *ngIf="entreCalles!=''" style="color:black"> {{entreCalles}} </mat-hint>
+
+					<!--	<mat-hint *ngIf="direccionValida==false&&busquedaInfructuosa==true" style="color:red">Altura no encontrada</mat-hint> 	-->
+				</mat-form-field>
+			</div>
+
+<!--INTERSECCION-->
+			<div class="col-10">  <!--*ngIf="buscaCallejero"-->
+				<mat-form-field>
+
+					<input matInput formControlName="interseccion" class="form-control mr-sm-2" type="text"
+					placeholder="Intersección" [matAutocomplete]="interseccion" #interseccion
+					[ngStyle]="{'background-color': errorDeInterseccion ? 'rgb(255, 0, 0, 0.5)' : 'rgb(255, 255, 255, 0.5)' }">
+					<mat-hint *ngIf="errorDeInterseccion" style="color:red">Intersección no encontrada</mat-hint>
+					<mat-autocomplete #interseccion="matAutocomplete" [displayWith]="displayCalle">
+						<mat-optgroup *ngFor="let interseccion of filtradoInterseccion | async" [label]="interseccion.localidad">
+							<mat-option class="calle-option"*ngFor="let domicilio of interseccion.calles" [value]="domicilio">
+								 {{displayCalle(domicilio)}}
+							</mat-option>
+						</mat-optgroup>
+					</mat-autocomplete>
+				</mat-form-field>
+			</div>
+
+
+<!--
+			<div *ngIf="calleValida">
+					{{alturaInput.nativeElement.focus()}}
+			</div>
+-->
+
+			<div class="alert alert-danger" *ngIf="direccionValida==false&&busquedaInfructuosa==true">
+				<strong>¡Atención!<div *ngIf="errorDeAltura && errorDeInterseccion">Dirección no encontrada...</div></strong>
+					<div style="font-style: italic">
+						<div *ngIf="errorDeAltura && !errorDeInterseccion">Ingrese una intersección o</div>
+						<div *ngIf="errorDeInterseccion && !errorDeAltura">Ingrese una altura o</div>
+						seleccione en el mapa el punto donde realizará el pedido.
+					</div>
+			</div>
+
+
+<!--
+		<div class="col">
+			<mat-radio-group class="example-radio-group" formControlName="tipo_viaje">
+				<mat-radio-button class="example-radio-button" value="viajeAhora">
+					Lo antes posible
+				</mat-radio-button>
+				<mat-radio-button value="viajeProgramado" (click)="programarViaje()">
+					Programar viaje
+				</mat-radio-button>
+			</mat-radio-group>
+		</div>
+-->
+<!--
+		<div class="col" style="white-space: pre-wrap">
+			<div class='row'>
+				<button mat-mini-fab color="primary" type="button" (click)="programarViaje()">
+					 <mat-icon>access_time</mat-icon>
+				</button>
+				Llega {{this.cuandoLlega}}
+			</div>
+		</div>
+		<br>
+-->
+		<div class="col">
+			<div class='row'>
+				<mat-checkbox formControlName="viajeProgramado" (click)="programarViaje()">Programar viaje</mat-checkbox>
+			</div>
+			<div class='row'>
+				<mat-hint> {{this.cuandoLlega}} </mat-hint>
+			</div>
+		</div>
+
+		<div class="col">
+			<div class='row'>
+				<mat-checkbox formControlName="observacion" (click)="cargarObservaciones()">Observaciones</mat-checkbox>
+			</div>
+			<div class='row'>
+				<mat-hint> {{observacion}} </mat-hint>
+			</div>
+		</div>
+
+
+<!--
+		<div *ngIf="tipoViaje=='viajeProgramado'" >
+			<div class="col">
+				<mat-form-field >
+					  <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Elegir la Fecha"
+					  formControlName="fechaeventual" >
+					  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+					  <mat-datepicker touchUi #picker></mat-datepicker>
+				</mat-form-field>
+			</div>
+
+			<div class="col">
+				<mat-form-field >
+						<mat-label>Hora</mat-label>
+						<input matInput type='time'  min="{{horaMinima}}" max="23:59" placeholder="Hora" formControlName="horaeventual" >
+				</mat-form-field>
+			</div>
+		</div>
+	-->
+
+		<div class="col">
+			<mat-form-field >
+				<mat-label>Móviles</mat-label>
+				  <mat-select formControlName="cantidad" >
+					<mat-option [value]=1>1</mat-option>
+					<mat-option [value]=2>2</mat-option>
+					<mat-option [value]=3>3</mat-option>
+					<mat-option [value]=4>4</mat-option>
+					<mat-option [value]=5>5</mat-option>
+				  </mat-select>
+			</mat-form-field>
+		</div>
+
+<!--
+			<mat-form-field>
+				<textarea matInput formControlName="observacion" name="observaciones" placeholder= "Realice las observaciones pertinentes" > </textarea>
+			</mat-form-field>
+		-->
+	<div *ngIf="!validacionOptativos&&direccionValida" style="color:red; font-style: italic; font-size: small" >
+		Ingrese las <b>observaciones</b> pertinentes.
+	</div>
+
+	<div class='row'>
+		<div class='col-6'>
+			<button type="submit" class="btn btn-success" [disabled]="!direccionValida||!validacionOptativos">Pedir</button> <!--[disabled]="!direccionValida" -->
+		</div>
+		<div class='col-6'>
+			<button type="button" class="btn btn-secondary" (click)="reiniciar_datos()" style="font-style: italic">Limpiar</button>
+		</div>
+	</div>
+</form>
+
+<!--
+		<mat-form-field>
+			<textarea matInput [(ngModel)]="formulario.observacion" name="observaciones" placeholder= "Realice las observaciones pertinentes" > </textarea>
+		</mat-form-field>
+
+
+		<button type="button" class="btn btn-secondary" (click)="limpiar_formulario()" style="font-style: italic">Limpiar datos</button>
+		<button type="submit" class="btn btn-success" [disabled]="!direccionValida">Confirmar viaje</button>
+	</form>
+
+
+-->

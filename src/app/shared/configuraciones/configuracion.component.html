@@ -1,0 +1,43 @@
+
+
+<mat-chip-list>
+  <mat-chip  (click)="solicitar_grupos_parametros(rol.idparametrogrupo)" selected="{{idparametrogrupo==rol.idparametrogrupo}}" [ngStyle]="getColor(i)"  *ngFor="let rol of grupos; let i = index;">{{rol.nombre | uppercase}}</mat-chip>
+
+</mat-chip-list>
+
+<div class="row" >
+
+
+
+
+  <div class="col-sm">
+    <div class="card">
+      <div class="card-header">Parametros De Configuracion de {{ menu[0]?.nombre | uppercase }}</div>
+      <div class="card-body">
+
+            <dynamic-form-builder [parametros]="subject_parametros$" (onSubmit)="onUpload($event)"></dynamic-form-builder>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm" *ngIf="usuario_empresa == 0" >
+
+    <div class="card" >
+      <div class="card-header" >
+          <mat-chip-list class="agregar_param">
+            <mat-chip  (click)=" cargar_nuevo_parametro() " >NUEVO PARAMETRO</mat-chip>
+          </mat-chip-list>
+      </div>
+      <div class="card-body">
+            <dynamic-form-builder [parametros]="subject_parametro_nuevo$" (onSubmit)="onUpload_nuevo($event)"></dynamic-form-builder>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+</div>

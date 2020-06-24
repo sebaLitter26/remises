@@ -1,0 +1,87 @@
+
+<div id="map" class="map">
+
+    <div class="example-section" *ngIf="zonas">
+         Nocturno
+        <mat-slide-toggle
+            class="example-margin"
+            [color]="color"
+            [checked]="dia_noche"
+            (change)="filtroDiurnoNocturno($event.checked)"
+            [disabled]="!zonas">
+          Diurno
+        </mat-slide-toggle>
+
+         <mat-checkbox class="example-margin" [(ngModel)]="mostrar_parada">Paradas</mat-checkbox>
+         <mat-checkbox class="example-margin" [(ngModel)]="mostrar_zona">Zonas</mat-checkbox>
+         <!-- <mat-checkbox class="example-margin" [(ngModel)]="checked">Puntos De partida</mat-checkbox> -->
+    </div>
+
+      <mat-nav-list *ngIf='_ubi.usuario_logueado'>
+            <mat-list-item   *ngFor="let zonalist of filtro_zonas; let i = index;"  [ngStyle]="getColor(zonalist)"  (click)="solicitar_zona(zonalist)" >
+
+                <h4 mat-line>{{zonalist.nombre | uppercase}}</h4>
+                <p mat-line> {{zonalist.timeactiva | date}} </p>
+                <mat-icon (click)="borrar_zona(zonalist)">close</mat-icon>
+
+
+            </mat-list-item>
+      </mat-nav-list>
+
+</div>
+<div id="tooltip"></div>
+
+
+
+
+
+
+<!--
+
+<mat-chip-list>
+  <mat-chip  (click)="solicitar_zona(zona)" selected="{{idzona==zona.idzona}}" [ngStyle]="getColor(i)"  *ngFor="let zona of zonas; let i = index;">{{zona.nombre | uppercase}}</mat-chip>
+
+</mat-chip-list>
+-->
+
+<div id="popup" class="ol-popup">
+   <a  id="popup-closer" class="ol-popup-closer"></a>
+   <div id="popup-content"></div>
+   <editar-zona [parametros]="subject_parametros$" ></editar-zona>
+<!-- (onSubmit)="onUpload($event)" -->
+</div>
+
+<div class='custom-float-button'  *ngIf="_ubi.usuario_logueado && zona" color="warn">
+    <!--
+    <button mat-fab *ngIf='!editar_mass && modoEdicion' (click)="borrar_tramo()">
+        <i class="material-icons"  >delete_forever</i>
+    </button>
+    -->
+   <button mat-fab *ngIf='modoEdicion' (mouseover)="mouse_over('edicion_multiple')" (mouseout)="mouse_over('')" (click)="editar_muchos_tramos()" >
+        <i class="material-icons"  >tab_unselected</i>
+    </button>
+    <button mat-fab *ngIf='modoEdicion' color="primary"  (mouseover)="mouse_over('edicion')" (mouseout)="mouse_over('')" (click)="editar_tramo()" >
+        <i class="material-icons" >border_color</i>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="nuevo_tramo('zona')">Zona</button>
+      <button mat-menu-item (click)="nuevo_tramo('parada')" >Parada</button>
+      <button mat-menu-item (click)="nuevo_tramo('puntero')">Puntero</button>
+    </mat-menu>
+
+    <button mat-fab [matMenuTriggerFor]="menu" *ngIf='modoEdicion' (mouseover)="mouse_over('nuevo')" (mouseout)="mouse_over('')" color="primary"   >
+
+
+        <i class="material-icons" >add_circle_outline</i>
+
+
+    </button>
+
+
+    <button mat-fab color="primary"   (click)="modoEdicion = !modoEdicion;" >
+        <i class="material-icons"  >build</i>
+
+    </button>
+    <div id="descripcion">{{descripcion}}</div>
+
+</div>

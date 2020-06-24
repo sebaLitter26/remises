@@ -1,0 +1,69 @@
+
+<app-login class="sidenav-container"></app-login>
+<router-outlet></router-outlet>
+<!--
+  <router-outlet name='encabezado'></router-outlet>
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav
+        #appDrawer
+        fixedInViewport="true"
+        *ngIf='_ubi.usuario_logueado'
+        mode="side"
+        [(opened)]="_nav.expanded"
+      >
+      <mat-toolbar (click)="_nav.expanded=!_nav.expanded">{{_ubi.hostname.codigo}}</mat-toolbar>
+      <mat-nav-list>
+        <app-menu-list-item *ngFor="let item of _ubi.navItems" [item]="item"></app-menu-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+          <button mat-button class="btn btn-outline-success" *ngIf='_ubi.usuario_logueado && !_nav.expanded' (click)="_nav.expanded=!_nav.expanded">
+            <mat-icon>format_align_left</mat-icon>
+            {{_ubi.hostname.codigo}}
+          </button>
+
+          <img class='img_logo'  *ngIf='_ubi.hostname' src="{{'https://'+ _ubi.hostname.hostname+_ubi.hostname.foto+'logo.jpg'}}">
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <div class="form-inline my-2 my-lg-0" >
+              <ul class="navbar-nav pepinNav">
+                <domicilios-frecuentes style="margin-left=10px"> </domicilios-frecuentes>
+                  <mat-menu #menu="matMenu" yPosition="below">
+                     <button mat-menu-item (click)='editar_perfil()'>Perfil</button>
+                     <button mat-menu-item (click)='_ubi.cerrar_session()'>Cerrar Sesion</button>
+                   </mat-menu>
+                <button mat-button [matMenuTriggerFor]="menu" class="btn btn-outline-success" *ngIf='_ubi.usuario_logueado' style="margin-left:50px">
+                    <i class="material-icons">lock</i>
+                    {{_ubi.usuario.nombre +' '+ _ubi.usuario.apellido }}
+                </button>
+              </ul>
+            </div>
+
+            <form  class='login' autocomplete="off" [formGroup]="formGroup" (ngSubmit)="loguearse()"   *ngIf='!_ubi.usuario_logueado && _ubi.hostname'>
+                <p>
+                  <img class='img_icono_login' *ngIf='_ubi.hostname' src="{{'https://'+ _ubi.hostname.hostname+_ubi.hostname.foto+'logo.jpg'}}">
+                </p>
+
+                <mat-form-field  [hideRequiredMarker]= "true" shouldLabelFloat= "false">
+                  <input matInput  formControlName="usuario" autocomplete="off"  class="form-control mr-sm-2" type="text" placeholder="Usuario" autofocus>
+                </mat-form-field>
+
+                <p>
+                  <mat-form-field  [hideRequiredMarker]= "true" shouldLabelFloat= "false" >
+                    <input matInput  formControlName="pass" autocomplete="off"  class="form-control mr-sm-2" type="password" placeholder="Contraseña">
+                  </mat-form-field>
+                </p>
+
+                <button class="btn btn-outline-success" type="submit">
+                    <i class="material-icons">vpn_key</i>
+                </button>
+            </form>
+          </div>
+        </nav>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+-->

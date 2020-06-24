@@ -1,0 +1,71 @@
+<h1 mat-dialog-title>{{popup_datos.titulo}}
+   <div style="font-style: italic; font-size:60%" *ngIf="popup_datos.bajada!=''">({{popup_datos.bajada}})</div>
+ </h1>
+ <div class="col alert alert-secondary" *ngIf="popup_datos.fecha">
+   <mat-icon>access_time</mat-icon>
+   <div style="font-style:italic"> Viaje programado</div>
+   Llega el {{popup_datos.fecha}} a las {{popup_datos.hora}} horas
+ </div>
+<div mat-dialog-content >
+  <p>{{popup_datos.pregunta}}</p>
+</div>
+<div class="col" *ngIf="this.popup_datos.carga">
+   <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" >
+
+     <div *ngIf="popup_datos.titulo=='Programar viaje'" >
+
+       <div class="col">
+         <mat-form-field >
+           <!--Cuando quiera poner una fecha máxima, tengo que poner en el input de abajo [max]="this.popup_datos.maxDate"-->
+             <input matInput [min]="this.popup_datos.minDate"  [matDatepicker]="picker" placeholder="Elegir la Fecha"
+             formControlName="fechaeventual" (dateChange)="diaSelect($event)" [value]="dia.value">
+
+             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+             <mat-datepicker touchUi #picker ></mat-datepicker>
+         </mat-form-field>
+       </div>
+
+       <div class="col">
+         <mat-form-field >
+             <mat-label>Hora</mat-label>
+             <input matInput type='time'  min="{{horaMinima}}" max="23:59" placeholder="Hora" formControlName="horaeventual" >
+         </mat-form-field>
+       </div>
+
+       <div class="col">
+         <mat-form-field >
+             <mat-label>Minutos antes</mat-label>
+             <input matInput type='number' min='5' max= '60' formControlName="tiempoAntes" >
+             <mat-hint *ngIf="tiempoAntesMal" style="color: red !important">Debe encontrarse entre 5 minutos y una hora.</mat-hint>
+         </mat-form-field>
+       </div>
+     </div>
+      <div *ngIf="popup_datos.titulo=='Observaciones'">
+          <mat-form-field style='width: 300px'>
+           <textarea matInput formControlName="observacion" placeholder= "Realice las observaciones pertinentes" Rows=3 ></textarea>
+          </mat-form-field>
+
+          <div *ngIf="popup_datos.datosAdministrativos">
+           <!--<div *ngFor="let question of questions">-->
+             <mat-grid-list cols="2" rowHeight="100px">
+                <mat-grid-tile *ngFor="let question of questions" >
+                 <app-question [question]="question" [form]="form"></app-question>
+                </mat-grid-tile>
+              </mat-grid-list>
+           <!--</div>-->
+          </div>
+      </div>
+
+   </form>
+</div>
+
+<div class="col alert alert-secondary" *ngIf="horaIncorrecta">
+   ¡La hora ingresada es incorrecta!
+<div style="font-style:italic">  El tiempo mínimo para programar un viaje es dentro de 30 minutos. </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="destruir_popup()" class="btn btn-danger" >Cancelar</button>
+  <button mat-button (click)="confirmSelection()"  [class.btn-disable]="checkCurrentLession()"  class="btn btn-success" >Aceptar</button>
+<!--  <button mat-button (click)="confirmSelection()" *ngIf="!datosIncorrectos"  class="btn btn-success" cdkFocusInitial>Aceptar</button>-->
+</div>

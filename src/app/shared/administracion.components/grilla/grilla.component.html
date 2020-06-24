@@ -1,0 +1,31 @@
+<section>
+<!--  <label style="margin-left: 20px;" *ngIf="permisos"> -->
+  <label style="margin-left: 20px;">
+
+      <button mat-raised-button   class="btn btn-warning" (click)="click_row(0)">
+          Añadir <!--{{name}}-->
+      </button>
+
+      <button class="btn btn-warning" *ngIf="rowData && rowData['length']>0" (click)="onBtExport()">Exportar a CSV</button>
+  </label>
+
+  <ag-grid-angular
+     #agGrid
+      style="height:500px; margin-left:15px;"
+      class="ag-theme-blue"
+      [rowData]="rowData | async  "
+      [columnDefs]="columnDefs | async"
+     [enableSorting]="true"
+     [enableFilter]="true"
+     [animateRows]="true"
+     [defaultColDef]="defaultColDef"
+      [paginationPageSize]="paginationPageSize"
+      [cacheOverflowSize]="cacheOverflowSize"
+      [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+      [infiniteInitialRowCount]="infiniteInitialRowCount"
+      [maxBlocksInCache]="maxBlocksInCache"
+     (gridReady)="onGridReady($event)"
+     (rowClicked)="click_row($event.node.data)"
+    >
+  </ag-grid-angular>
+<section>

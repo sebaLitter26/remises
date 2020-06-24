@@ -1,0 +1,17 @@
+<div *ngIf="datos && datos.congruencia!=0">
+  Hay {{datos.congruencia}} móviles con datos mal cargados
+</div>
+
+<table  *ngIf="datos ">
+  <tr>
+    <th >Cantidad de móviles facturados </th>
+    <th> | </th>
+    <th >PRECIO TOTAL</th>
+  </tr>
+
+    <tr>
+      <td>{{datos.cantMovilesFacturados}}</td>
+      <td> | </td>
+      <td>{{datos.precioTotal}}</td>
+    </tr>
+</table>

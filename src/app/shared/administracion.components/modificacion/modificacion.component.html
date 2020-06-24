@@ -1,0 +1,19 @@
+<div class="col-md-12" >
+			<mat-accordion>
+				<mat-expansion-panel *ngFor="let tabla_rel of nombre_tablas_rel ; let i = index " [expanded]="step === i"  hideToggle>
+
+					<mat-expansion-panel-header (click)="servicios(i)">
+					  <mat-panel-title>{{datos_form[i].tabla}}</mat-panel-title>
+					  <mat-panel-description>{{datos_form[i].accion}}</mat-panel-description>
+					</mat-expansion-panel-header>
+					<app-dynamic-form #modulo_form [datos_form]="datos_form[i]" (submit)="guardar($event)"></app-dynamic-form>
+			  </mat-expansion-panel>
+			</mat-accordion>
+
+	<div *ngIf="alert_mensaje!=''" [ngClass]="{
+				  'alert alert-danger': error_validacion,
+				  'alert alert-primary': !error_validacion
+				}">
+		 <p [innerHTML]="alert_mensaje"> </p>
+	</div>
+</div>

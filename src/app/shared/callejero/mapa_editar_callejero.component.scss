@@ -1,0 +1,183 @@
+
+
+mat-nav-list{
+    position: absolute  ;
+    //top:16%;
+    z-index: 5  ;
+    width: auto  ;
+
+    overflow: auto;
+    flex-grow: 1;
+    height: fit-content;
+    padding: 5px;
+}
+
+mat-form-field{
+    position: absolute  ;
+    top: 10%  ;
+    z-index: 5  ;
+    width: 50%  ;
+}
+
+mat-icon{
+  float:right;
+  padding-left: 5px;
+  position: absolute;
+  right: 5px;
+}
+
+.mat-list-item{
+    background-color: #23272b;
+    opacity: 0.8;
+    height: 60px !important;
+    width: fit-content;
+    color: white;
+    font-size: 20px;
+    z-index: 5;
+    //border-radius: 20px;
+    padding: 2px 40px 0px 7px;
+    margin:5px;
+}
+
+#descripcion{
+    position: fixed;
+    left: 10px;
+    bottom: 15px;
+    color: DarkSlateBlue ;
+    white-space: pre-wrap;
+    width: 70%;
+    font-weight: bold;
+
+}
+
+.mat-list-item:hover{
+    //background: red;
+    //width: 20%;
+    background-color: grey;
+    font-family: inherit;
+}
+
+#cdk-overlay-2{
+    padding-left: 4%;
+}
+
+.map{
+    height: auto !important;
+     width: 100%;
+     position: fixed;
+}
+
+.custom-float-button{
+  position: fixed;
+  right: 0px;
+  bottom: 15px;
+
+  //cursor: pointer;
+}
+.material-icons{
+    color: ghostwhite;
+}
+button{
+    margin-right: 2em !important;
+}
+
+@keyframes fivePhasesFadeIn {
+     0% {opacity: 1}
+     25% {opacity: 0.25}
+     50% {opacity: 0.5}
+     75% {opacity: 0.75}
+     100% {opacity: 1}
+}
+
+.fivePhasesFadeIn {
+      animation-name: fivePhasesFadeIn;
+      animation-duration: 2s;
+      animation-iteration-count: infinite;
+}
+
+scroll-content {
+   display: flex;
+   flex-direction: column;
+}
+
+.row {
+   flex: 1;
+   height: 100%;
+   margin-bottom: 4px !important;
+}
+
+.toastClass {
+    text-align:center;
+    color: purple;
+    white-space: pre;
+}
+
+.scroll-content {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+img {
+  width: auto;
+  max-width: 100%;
+  float: right;
+  height: auto;
+  max-height: 100%;
+}
+
+.bar-button {
+  font-size: 1.5em;
+
+}
+
+
+
+.toolbar-title {
+  font-size: 2.5em;
+  color: gray;
+}
+
+
+.ol-popup {
+  position: absolute;
+  background-color: white;
+  -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #cccccc;
+  bottom: 12px;
+  left: -50px;
+  opacity: 0.9;
+  min-width: 480px;
+}
+.ol-popup:after, .ol-popup:before {
+  top: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.ol-popup:after {
+  border-top-color: white;
+  border-width: 10px;
+  left: 48px;
+  margin-left: -10px;
+}
+.ol-popup:before {
+  border-top-color: #cccccc;
+  border-width: 11px;
+  left: 48px;
+  margin-left: -11px;
+}
+.ol-popup-closer {
+  text-decoration: none;
+  position: absolute;
+  top: 2px;
+  right: 8px;
+}
+.ol-popup-closer:after {
+  content: "✖";
+}

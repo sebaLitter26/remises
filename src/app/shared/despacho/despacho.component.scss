@@ -1,0 +1,224 @@
+    mat-nav-list{
+        position: absolute  ;
+        //top:16%;
+        z-index: 5  ;
+        width: auto  ;
+
+        overflow: auto;
+        flex-grow: 1;
+        height: fit-content;
+        padding: 5px;
+    }
+
+    app-modificacion{
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 250px;
+        background: lightyellow;
+        padding: 20px;
+        border-radius: 10px;
+        opacity: 0.9;
+        //font-size: 1.2rem !important;
+    }
+
+    mat-form-field{
+        position: absolute  ;
+        top: 10%  ;
+        z-index: 5  ;
+        width: 50%  ;
+    }
+
+    mat-icon{
+        float:right;
+        padding-left: 5px;
+        position: absolute;
+        right: 5px;
+    }
+
+    .mat-list-item{
+        background-color: #23272b;
+        opacity: 0.8;
+        height: 60px !important;
+        width: fit-content;
+        color: white;
+        font-size: 20px;
+        z-index: 5;
+        //border-radius: 20px;
+        padding: 2px 40px 0px 7px;
+        margin:5px;
+    }
+
+    .mat-list-item:hover{
+        //background: red;
+        //width: 20%;
+        background-color: grey;
+        font-family: inherit;
+    }
+
+    #cdk-overlay-2{
+            padding-left: 4%;
+    }
+
+     .map{
+         //display: block;
+         height: 100%;
+         width: 100%;
+     }
+
+     @keyframes fivePhasesFadeIn {
+           0% {opacity: 1}
+           25% {opacity: 0.25}
+           50% {opacity: 0.5}
+           75% {opacity: 0.75}
+           100% {opacity: 1}
+      }
+
+      .fivePhasesFadeIn {
+            animation-name: fivePhasesFadeIn;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+      }
+
+      scroll-content {
+           display: flex;
+           flex-direction: column;
+       }
+
+       .row {
+           flex: 1;
+           height: 100%;
+       }
+
+      .toastClass {
+         text-align:center;
+         color: purple;
+         white-space: pre;
+      }
+
+      .scroll-content {
+        overflow-x: hidden;
+        overflow-y: hidden;
+      }
+
+      img {
+          width: auto;
+          max-width: 100%;
+          float: right;
+          height: auto;
+          max-height: 100%;
+      }
+
+      .bar-button {
+          font-size: 1.5em;
+      }
+
+      .toolbar-title {
+          font-size: 2.5em;
+          color: gray;
+      }
+    /*
+
+        .estiloBuscando {
+
+              background-color: #AC2832;
+              color: #DFD297;
+        }
+
+        .estiloAsignado {
+
+              background-color: #22A6FF;
+              color: white;
+        }
+
+        .estiloConfirmado {
+
+            background-color: #22A6FF;
+            color: white;
+        }
+
+        .estiloLlego {
+
+              background-color: #13E864; //#FFABD2;
+              color: #010a0d;
+              font-weight: bolder;
+        }
+
+        .estiloEnCurso {
+
+              background-color: #ABFFD2;
+              color: #010a0d;
+        }
+
+
+        .estiloFinalizado {
+
+              background-color: #FFABD2;
+              color: #323E28;
+        }
+
+        .estiloReasignando {
+
+              background-color: #a091a1;
+              color: white;
+        }
+
+        .estiloCancelado {
+
+            background-color: #FF225A;
+            color: black;
+        }
+
+
+        labeler {
+
+            filter: brightness(0) invert(1);
+        }
+
+
+
+
+#E4E4E4
+#F1684E
+#1B1B1B
+
+
+#763A7A
+#0288AD
+#F6F3EC
+
+
+#AC2832
+#000000
+#DFD297
+#FFFFFF
+
+
+#F2EFE4
+#CB8C1D
+#4C3327
+#BD3632
+
+#DCD8CF
+#E25D33
+#282827
+
+#B94629
+#E3DEC1
+#E89F65
+#47AFAF
+
+
+#99CD4E
+#FFFFFF
+#343434
+#E1E1E1
+
+
+#222222
+#D11250
+#DB5800
+#006899
+#008F68
+
+*/

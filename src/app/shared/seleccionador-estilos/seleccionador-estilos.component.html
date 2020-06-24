@@ -1,0 +1,36 @@
+<div class="theme">
+<form #gsForm="ngForm" (ngSubmit)="onSubmit(gsForm)">
+	<label>Set Navigation Font Color: </label>
+	<input #navColor name="globalNavColor" type="color" ngModel>
+<br>
+	<label>Set Navigation Background Color: </label>
+	<input #navBackground name="globalNavBackground" type="color" ngModel>
+<br>
+  <label>Set Card Font Color: </label>
+	<input #cardColor name="globalCardColor" type="color" ngModel>
+<br>
+  <label>Set Card Background Color:</label>
+	<input #cardBackground name="globalCardBackground" type="color" ngModel>
+<br>
+  <label>Set Button Font Color: </label>
+	<input #buttonColor name="globalButtonColor" type="color" ngModel>
+<br>
+  <label>Set Button Background Color:</label>
+	<input #buttonBackground name="globalButtonBackground" type="color" ngModel>
+<br>
+  <label>Set Footer Font Color: </label>
+	<input #footerColor name="globalFooterColor" type="color" ngModel>
+<br>
+  <label>Set Footer Background Color: </label>
+	<input #footerBackground name="globalFooterBackground" type="color" ngModel>
+<br>
+ <label>Set Footer Text Alignment:</label>
+<select name="globalFooterAlignment" ngModel>
+  <option value="left">Left</option>
+  <option value="center">Center</option>
+  <option value="right">Right</option>
+</select>
+<br><br>
+  <button type="submit">Submit</button>
+</form>
+</div>
